@@ -2,6 +2,7 @@
 
 # cat bootstrap.sh | /bin/bash
 
+
 sudo apt-get --yes install software-properties-common
 sudo apt-add-repository --yes ppa:ansible/ansible
 sudo apt-get update
