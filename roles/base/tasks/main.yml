@@ -1,0 +1,15 @@
+---
+- name: install packages
+  package:
+    name:
+      - ca-certificates
+      - gnupg
+      - lsb-release
+      - aptitude
+      - openssh-server
+      - zsh
+      - git
+      - curl
+      - htop
+      - vim
+      - tmux

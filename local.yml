@@ -1,19 +1,17 @@
 ---
 - hosts: localhost
   connection: local
+  tags: always
   become: true
+  pre_tasks:
+    - name: pre-run | update package cache (ubuntu)
+      tags: always
+      apt: update_cache=yes
+      changed_when: False
+      when: ansible_distribution == "Ubuntu"
 
-  tasks:
-    - name : install packages
-      package:
-        name:
-         - aptitude
-         - openssh-server
-         - zsh
-         - git
-         - curl
-         - htop
-         - nodejs
-         - vim
-         - tmux
-
+- hosts: localhost
+  tags: base
+  become: true
+  roles:
+    - base
