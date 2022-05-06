@@ -1,4 +1,9 @@
 ---
+- import_tasks: create_users.yml
+  vars:
+    users:
+      - cpollet
+
 - name: install packages
   package:
     name:
@@ -17,3 +22,5 @@
 - import_tasks: software/docker.yml
   vars:
     DOCKER_COMPOSE_VERSION: "2.5.0"
+    users:
+      - cpollet
