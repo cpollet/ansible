@@ -1,0 +1,5 @@
+---
+- block:
+  - import_tasks: software/nodejs.yml
+    vars:
+      NODEJS_VERSION: "16"

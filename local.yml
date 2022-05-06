@@ -15,3 +15,9 @@
   become: true
   roles:
     - base
+
+- hosts: localhost
+  tags: dev
+  become: true
+  roles:
+    - dev
