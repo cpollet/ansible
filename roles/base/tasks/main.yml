@@ -13,3 +13,7 @@
       - htop
       - vim
       - tmux
+
+- import_tasks: software/docker.yml
+  vars:
+    DOCKER_COMPOSE_VERSION: "2.5.0"
