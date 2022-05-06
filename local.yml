@@ -1,0 +1,19 @@
+---
+- hosts: localhost
+  connection: local
+  become: true
+
+  tasks:
+    - name : install packages
+      package:
+        name:
+         - aptitude
+         - openssh-server
+         - zsh
+         - git
+         - curl
+         - htop
+         - nodejs
+         - vim
+         - tmux
+
