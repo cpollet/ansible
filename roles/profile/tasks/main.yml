@@ -1,0 +1,8 @@
+---
+- name: "Clone dotfiles"
+  git:
+    repo: https://github.com/cpollet/dotfiles.git
+    dest: ~/.dotfiles.git
+
+- name: "Install dotfiles"
+  shell: ~/.dotfiles.git/install.sh

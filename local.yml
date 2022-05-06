@@ -21,3 +21,9 @@
   become: true
   roles:
     - dev
+
+- hosts: localhost
+  tags: profile
+  become: false
+  roles:
+    - profile
