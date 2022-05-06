@@ -1,18 +1,13 @@
 ---
+- name: install makepasswd package
+  package:
+    name:
+      - makepasswd
+
 - name: Create user accounts
-  user:
-    name: "{{ user_item }}"
+  include_tasks: create_user.yml
   vars:
     user: "{{ user_item }}"
   with_items: "{{ users }}"
   loop_control:
     loop_var: user_item
-
-- name: "Import ssh keys"
-  include_tasks: import_ssh_keys.yml
-  vars:
-    user: "{{ user_item }}"
-  with_items: "{{ users }}"
-  loop_control:
-    loop_var: user_item
-

@@ -1,0 +1,31 @@
+---
+- name: "Create user {{ user }}"
+  user:
+    state: present
+    name: "{{ user }}"
+    shell: /bin/bash
+    update_password: always
+    generate_ssh_key: yes
+    ssh_key_bits: 2048
+  register: user_created
+
+- name: Generate password for {{ user }}
+  shell: makepasswd --chars=20
+  register: user_password
+  when: user_created.changed
+
+- name: "Set password for {{ user }}"
+  become: true
+  shell: echo {{ user }}:{{ user_password.stdout }} | chpasswd
+  when: user_created.changed
+
+- name: Force user {{ user }} to change password
+  shell: chage -d 0 {{ user }}
+  when: user_created.changed
+
+- name: User {{ user }} created
+  debug: msg="Password for {{ user }} is {{ user_password.stdout }}"
+  when: user_created.changed
+
+- name: "Import {{ user }}'s ssh keys"
+  include_tasks: import_ssh_keys.yml
