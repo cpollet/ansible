@@ -2,7 +2,61 @@
 - name: "Clone dotfiles"
   git:
     repo: https://github.com/cpollet/dotfiles.git
-    dest: ~/.dotfiles.git
+    dest: ~/.dotfiles
+    version: ansible
+    update: yes
 
-- name: "Install dotfiles"
-  shell: ~/.dotfiles.git/install.sh
+- name: Create ~/.config
+  file:
+    path: ~/.config
+    state: directory
+
+- name: Fetch current user
+  shell: whoami
+  register: whoami
+  changed_when: false
+
+- name: Fetch zsh ansible tasks
+  fetch:
+    src: ~/.dotfiles/ansible/zsh.yml
+    dest: /tmp/fetched/
+  changed_when: false
+
+- name: Configure zsh
+  include_tasks: "/tmp/fetched/localhost/home/{{ whoami.stdout }}/.dotfiles/ansible/zsh.yml"
+
+- name: Fetch ls ansible tasks
+  fetch:
+    src: ~/.dotfiles/ansible/ls.yml
+    dest: /tmp/fetched/
+  changed_when: false
+
+- name: Configure ls
+  include_tasks: "/tmp/fetched/localhost/home/{{ whoami.stdout }}/.dotfiles/ansible/ls.yml"
+
+- name: Fetch git ansible tasks
+  fetch:
+    src: ~/.dotfiles/ansible/git.yml
+    dest: /tmp/fetched/
+  changed_when: false
+
+- name: Configure git
+  include_tasks: "/tmp/fetched/localhost/home/{{ whoami.stdout }}/.dotfiles/ansible/git.yml"
+
+- name: Fetch vim ansible tasks
+  fetch:
+    src: ~/.dotfiles/ansible/vim.yml
+    dest: /tmp/fetched/
+  changed_when: false
+
+- name: Configure vim
+  include_tasks: "/tmp/fetched/localhost/home/{{ whoami.stdout }}/.dotfiles/ansible/vim.yml"
+
+- name: Fetch tmux ansible tasks
+  fetch:
+    src: ~/.dotfiles/ansible/tmux.yml
+    dest: /tmp/fetched/
+  changed_when: false
+
+- name: Configure vim
+  include_tasks: "/tmp/fetched/localhost/home/{{ whoami.stdout }}/.dotfiles/ansible/tmux.yml"

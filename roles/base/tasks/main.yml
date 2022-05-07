@@ -29,6 +29,7 @@
       - htop
       - vim
       - tmux
+      - tree
 
 - import_tasks: software/docker.yml
   vars:
