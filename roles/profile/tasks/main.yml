@@ -1,7 +1,7 @@
 ---
 - name: "Clone dotfiles"
   git:
-    repo: https://github.com/cpollet/dotfiles.git
+    repo: "{{ lookup('env', 'DOTFILES_REPO') | default('https://github.com/cpollet/dotfiles.git', True) }}"
     dest: ~/.dotfiles
     version: ansible
     update: yes
