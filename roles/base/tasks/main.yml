@@ -20,6 +20,14 @@
       - tmux
       - tree
 
+# todo move to dev
+- name: install X packages
+  package:
+    name:
+      - kdiff3
+  tags:
+    - gnome
+
 - import_tasks: software/docker.yml
   vars:
     DOCKER_COMPOSE_VERSION: "2.5.0"

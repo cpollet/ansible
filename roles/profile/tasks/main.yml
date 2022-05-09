@@ -55,4 +55,3 @@
     path: "{{ dotfiles_dir.path }}"
     state: absent
   when: dotfiles_dir.path is defined
-
