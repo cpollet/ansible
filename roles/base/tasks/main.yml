@@ -4,17 +4,6 @@
     users:
       - cpollet
 
-- name: Add users to sudo
-  lineinfile:
-    path: /etc/sudoers.d/{{ item }}
-    line: "{{ item }} ALL=(ALL) PASSWD: ALL"
-    state: present
-    mode: 0440
-    create: yes
-    validate: 'visudo -cf %s'
-  with_items:
-    - cpollet
-
 - name: install packages
   package:
     name:

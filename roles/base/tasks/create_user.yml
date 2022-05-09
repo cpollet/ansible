@@ -3,10 +3,6 @@
   user:
     state: present
     name: "{{ user }}"
-    shell: /bin/zsh
-    update_password: always
-    generate_ssh_key: yes
-    ssh_key_bits: 2048
   register: user_created
 
 - name: Generate password for {{ user }}
@@ -15,17 +11,22 @@
   when: user_created.changed
 
 - name: "Set password for {{ user }}"
-  become: true
   shell: echo {{ user }}:{{ user_password.stdout }} | chpasswd
   when: user_created.changed
 
-- name: Force user {{ user }} to change password
+- name: Force {{ user }} to change password
   shell: chage -d 0 {{ user }}
   when: user_created.changed
 
-- name: User {{ user }} created
+- name: Display password for {{ user }}
   debug: msg="Password for {{ user }} is {{ user_password.stdout }}"
   when: user_created.changed
 
-- name: "Import {{ user }}'s ssh keys"
-  include_tasks: import_ssh_keys.yml
+- name: Add {{ user }} to sudo
+  lineinfile:
+    path: /etc/sudoers.d/{{ user }}
+    line: "{{ user }} ALL=(ALL) PASSWD: ALL"
+    state: present
+    mode: 0440
+    create: yes
+    validate: 'visudo -cf %s'

@@ -1,62 +1,58 @@
 ---
-- name: "Clone dotfiles"
+- name: Fetch current user
+  shell: whoami
+  register: whoami
+  changed_when: false
+
+- name: Configure shell
+  become: true
+  user:
+    name: "{{ whoami.stdout }}"
+    shell: /bin/zsh
+
+- name: Create ssh key pair
+  user:
+    name: "{{ whoami.stdout }}"
+    generate_ssh_key: yes
+    ssh_key_bits: 2048
+
+- name: "Add authorized keys"
+  authorized_key:
+    user: "{{ whoami.stdout }}"
+    state: present
+    key: "{{ lookup('file', key) }}"
+  with_fileglob: files/{{ whoami.stdout }}.*.pub
+  loop_control:
+    loop_var: key
+
+- name: Clone dotfiles
   git:
     repo: "{{ lookup('env', 'DOTFILES_REPO') | default('https://github.com/cpollet/dotfiles.git', True) }}"
     dest: ~/.dotfiles
     version: ansible
     update: yes
 
-- name: Create ~/.config
-  file:
-    path: ~/.config
+- name: Create tmp dir
+  tempfile:
     state: directory
+    suffix: _dotfiles
+  register: dotfiles_dir
 
-- name: Fetch current user
-  shell: whoami
-  register: whoami
-  changed_when: false
-
-- name: Fetch zsh ansible tasks
+- name: Fetch dotfiles playbook
   fetch:
-    src: ~/.dotfiles/ansible/zsh.yml
-    dest: /tmp/fetched/
+    src: ~/.dotfiles/ansible/local.yml
+    dest: "{{ dotfiles_dir.path }}"
   changed_when: false
 
-- name: Configure zsh
-  include_tasks: "/tmp/fetched/localhost/home/{{ whoami.stdout }}/.dotfiles/ansible/zsh.yml"
+- name: Execute dotfiles playbook
+  include_tasks: "{{ dotfiles_dir.path }}/localhost/home/{{ whoami.stdout }}/.dotfiles/ansible/local.yml"
+  vars:
+    tmp_dir: "{{ dotfiles_dir.path }}"
+    current_user: "{{ whoami.stdout }}"
 
-- name: Fetch ls ansible tasks
-  fetch:
-    src: ~/.dotfiles/ansible/ls.yml
-    dest: /tmp/fetched/
-  changed_when: false
+- name: Remove temp dir
+  file:
+    path: "{{ dotfiles_dir.path }}"
+    state: absent
+  when: dotfiles_dir.path is defined
 
-- name: Configure ls
-  include_tasks: "/tmp/fetched/localhost/home/{{ whoami.stdout }}/.dotfiles/ansible/ls.yml"
-
-- name: Fetch git ansible tasks
-  fetch:
-    src: ~/.dotfiles/ansible/git.yml
-    dest: /tmp/fetched/
-  changed_when: false
-
-- name: Configure git
-  include_tasks: "/tmp/fetched/localhost/home/{{ whoami.stdout }}/.dotfiles/ansible/git.yml"
-
-- name: Fetch vim ansible tasks
-  fetch:
-    src: ~/.dotfiles/ansible/vim.yml
-    dest: /tmp/fetched/
-  changed_when: false
-
-- name: Configure vim
-  include_tasks: "/tmp/fetched/localhost/home/{{ whoami.stdout }}/.dotfiles/ansible/vim.yml"
-
-- name: Fetch tmux ansible tasks
-  fetch:
-    src: ~/.dotfiles/ansible/tmux.yml
-    dest: /tmp/fetched/
-  changed_when: false
-
-- name: Configure vim
-  include_tasks: "/tmp/fetched/localhost/home/{{ whoami.stdout }}/.dotfiles/ansible/tmux.yml"

@@ -1,9 +1,0 @@
----
-- name: "Add authorized keys for {{ user }}"
-  authorized_key:
-    user: "{{ user }}"
-    state: present
-    key: "{{ lookup('file', key) }}"
-  with_fileglob: files/{{ user }}.*.key.pub
-  loop_control:
-    loop_var: key
