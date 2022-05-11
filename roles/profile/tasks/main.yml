@@ -25,33 +25,33 @@
   loop_control:
     loop_var: key
 
-- name: Clone dotfiles
-  git:
-    repo: "{{ lookup('env', 'DOTFILES_REPO') | default('https://github.com/cpollet/dotfiles.git', True) }}"
-    dest: ~/.dotfiles
-    version: ansible
-    update: yes
+- name: Execute gnome tasks
+  include_tasks: "gnome.yml"
+  tags: gnome
 
-- name: Create tmp dir
-  tempfile:
-    state: directory
-    suffix: _dotfiles
-  register: dotfiles_dir
+- name: Install xclip
+  tags: gnome
+  become: true
+  package:
+    name:
+      - xclip
 
-- name: Fetch dotfiles playbook
-  fetch:
-    src: ~/.dotfiles/ansible/local.yml
-    dest: "{{ dotfiles_dir.path }}"
-  changed_when: false
+- name: Install yadm
+  become: true
+  package:
+    name:
+      - yadm
 
-- name: Execute dotfiles playbook
-  include_tasks: "{{ dotfiles_dir.path }}/localhost/home/{{ whoami.stdout }}/.dotfiles/ansible/local.yml"
-  vars:
-    tmp_dir: "{{ dotfiles_dir.path }}"
-    current_user: "{{ whoami.stdout }}"
+- name: Clone dotfiles repository
+  shell: yadm clone {{ lookup('env', 'DOTFILES_REPO') | default('https://github.com/cpollet/dotfiles.git', True) }}
 
-- name: Remove temp dir
-  file:
-    path: "{{ dotfiles_dir.path }}"
-    state: absent
-  when: dotfiles_dir.path is defined
+# delete me once yadm becomes master...
+- name: "Checkout yadm"
+  shell: "yadm checkout yadm"
+# delete me once yadm becomes master...
+- name: "Bootstrap yadm"
+  shell: ".config/yadm/bootstrap"
+
+- name: Execute gnome tasks
+  include_tasks: "gnome.yml"
+  tags: gnome
