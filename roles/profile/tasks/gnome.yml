@@ -48,7 +48,7 @@
   dconf: key="/org/gnome/terminal/legacy/profiles:/:58ba1642-4d93-448b-9226-10f4a66e174c/font" value="'Monospace 10'"
 
 - name: Lock screen (1/5)
-  dconf: key="/org/gnome/desktop/screensaver/picture-uri" value="'file:///home/{{ whoami.stdout }}/.misc/black-pixel.png'"
+  dconf: key="/org/gnome/desktop/screensaver/picture-uri" value="'file:///home/{{ whoami.stdout }}/.local/share/backgrounds/black-pixel.png'"
 - name: Lock screen (2/5)
   dconf: key="/org/gnome/desktop/screensaver/color-shading-type" value="'solid'"
 - name: Lock screen (3/5)
@@ -59,7 +59,7 @@
   dconf: key="/org/gnome/desktop/screensaver/secondary-color" value="'#000000000000'"
 
 - name: Background (1/5)
-  dconf: key="/org/gnome/desktop/background/picture-uri" value="'file:///home/{{ whoami.stdout }}/.misc/black-pixel.png'"
+  dconf: key="/org/gnome/desktop/background/picture-uri" value="'file:///home/{{ whoami.stdout }}/.local/share/backgrounds/black-pixel.png'"
 - name: Background (2/5)
   dconf: key="/org/gnome/desktop/background/color-shading-type" value="'solid'"
 - name: Background (3/5)
