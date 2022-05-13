@@ -19,6 +19,16 @@
       - vim
       - tmux
       - tree
+      - pandoc
+      - elinks
+
+- name: install custom scripts
+  copy:
+    src: mdless
+    dest: /usr/local/bin/mdless
+    owner: root
+    group: root
+    mode: '0755'
 
 # todo move to dev
 - name: install X packages
