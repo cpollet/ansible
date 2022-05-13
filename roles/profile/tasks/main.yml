@@ -41,16 +41,11 @@
 - name: Clone dotfiles repository
   shell: "[ -d $HOME/.yadm ] || yadm clone {{ lookup('env', 'DOTFILES_REPO') | default('https://github.com/cpollet/dotfiles.git', True) }}"
 
-# delete me once yadm becomes master...
-#- name: "Checkout yadm"
-#  shell: "yadm checkout yadm"
-
 - name: Clone dotfiles repository
   shell: "yadm pull"
 
-# delete me once yadm becomes master...
-#- name: "Bootstrap yadm"
-#  shell: "$HOME/.config/yadm/bootstrap"
+- name: "Bootstrap yadm"
+  shell: "$HOME/.config/yadm/bootstrap"
 
 - name: Execute gnome tasks
   include_tasks: "gnome.yml"
