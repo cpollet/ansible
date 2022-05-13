@@ -99,7 +99,7 @@ function multiselect {
 }
 
 all_options=( "base"  "profile"  "gnome"  "dev")
-preselection=("true"  "true"     "false"  "false")
+preselection=("true"  "false"    "false"  "false")
 
 echo "Select what to install (<j>, <k>, <up>, <down>, <space>), press <enter> to continue"
 multiselect result all_options preselection
