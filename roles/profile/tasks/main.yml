@@ -47,6 +47,10 @@
 - name: "Bootstrap yadm"
   shell: "$HOME/.config/yadm/bootstrap"
 
+- name: "Install fonts"
+  include_tasks: "fonts.yml"
+  tags: gnome
+
 - name: Execute gnome tasks
   include_tasks: "gnome.yml"
   tags: gnome

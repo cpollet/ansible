@@ -1,0 +1,26 @@
+---
+- name: Ensure /usr/share/fonts/ttf exists
+  become: true
+  file:
+    path: /usr/share/fonts/ttf
+    state: directory
+    mode: '0755'
+
+- name: Nerd Fonts's JetBrainsMono exists
+  shell: "ls /usr/share/fonts/ttf/JetBrains\\ Mono*Nerd\\ Font*.ttf"
+  register: jetbrainsmono_exists
+  ignore_errors: yes
+  changed_when: false
+
+- name: Download Nerd Fonts's JetBrainsMono
+  when: jetbrainsmono_exists is failed
+  become: true
+  unarchive:
+    src: https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/JetBrainsMono.zip
+    dest: "/usr/share/fonts/ttf"
+    remote_src: yes
+
+- name: Refresh fonts cache
+  when: jetbrainsmono_exists is failed
+  become: true
+  shell: "fc-cache -f -v "
