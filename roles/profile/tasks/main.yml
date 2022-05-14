@@ -41,7 +41,7 @@
 - name: Clone dotfiles repository
   shell: "[ -d $HOME/.yadm ] || yadm clone {{ lookup('env', 'DOTFILES_REPO') | default('https://github.com/cpollet/dotfiles.git', True) }}"
 
-- name: Clone dotfiles repository
+- name: Update dotfiles repository
   shell: "yadm pull"
 
 - name: "Bootstrap yadm"
