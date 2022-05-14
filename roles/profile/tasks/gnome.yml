@@ -45,7 +45,7 @@
 - name: Terminal theme (9/11)
   dconf: key="/org/gnome/terminal/legacy/profiles:/:58ba1642-4d93-448b-9226-10f4a66e174c/use-system-font" value="false"
 - name: Terminal theme (10/11)
-  dconf: key="/org/gnome/terminal/legacy/profiles:/:58ba1642-4d93-448b-9226-10f4a66e174c/font" value="'JetBrainsMono NF Medium 10'"
+  dconf: key="/org/gnome/terminal/legacy/profiles:/:58ba1642-4d93-448b-9226-10f4a66e174c/font" value="'JetBrainsMono NF Regular 10'"
 - name: Terminal theme (11/11)
   dconf: key="/org/gnome/terminal/legacy/profiles:/:58ba1642-4d93-448b-9226-10f4a66e174c/cell-height-scale" value="1.1000000000000001"
 
