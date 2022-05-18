@@ -13,6 +13,7 @@
       - aptitude
       - openssh-server
       - zsh
+      - fish
       - git
       - curl
       - htop
@@ -36,6 +37,8 @@
   package:
     name:
       - kdiff3
+      - terminator
+      - alacritty
   tags:
     - gnome
 

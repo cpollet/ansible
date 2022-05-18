@@ -47,6 +47,7 @@
 - name: "Bootstrap yadm"
   shell: "$HOME/.config/yadm/bootstrap"
 
+# todo move to base
 - name: "Install fonts"
   include_tasks: "fonts.yml"
   tags: gnome
