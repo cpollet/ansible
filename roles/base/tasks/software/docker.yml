@@ -7,6 +7,7 @@
 - name: Get DEB architecture
   shell: dpkg --print-architecture
   register: deb_architecture
+  changed_when: false
 
 - name: Install docker repos
   apt_repository:
@@ -22,11 +23,17 @@
       - docker-ce-cli
       - containerd.io
 
+- name: Check docker-compose
+  stat:
+    path: /usr/local/bin/docker-compose
+  register: docker_compose
+
 - name: Install docker-compose from official github repo
   get_url:
     url : https://github.com/docker/compose/releases/download/v{{ DOCKER_COMPOSE_VERSION }}/docker-compose-linux-{{ ansible_architecture }}
     dest: /usr/local/bin/docker-compose
     mode: 'u+x,g+x,o+x'
+  when: docker_compose.stat.exists == false
 
 - name: Adding users to group docker
   user:
