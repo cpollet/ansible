@@ -1,0 +1,22 @@
+---
+# ref: https://dandavison.github.io/delta
+- name: Get DEB architecture
+  shell: dpkg --print-architecture
+  register: deb_architecture
+  changed_when: false
+
+- name: Install delta dependencies (ubuntu >= 20.04)
+  package:
+    name:
+      - libc6
+  when: ansible_distribution == 'Ubuntu' and ansible_distribution_major_version | int >= 20
+
+- name: Install delta (ubuntu >= 20.04)
+  apt:
+    deb: https://github.com/dandavison/delta/releases/download/{{ DELTA_VERSION }}/git-delta_{{ DELTA_VERSION }}_{{ deb_architecture.stdout }}.deb
+  when: ansible_distribution == 'Ubuntu' and ansible_distribution_major_version | int >= 20
+
+- name: Install delta (ubuntu < 20.04)
+  apt:
+    deb: https://github.com/dandavison/delta/releases/download/{{ DELTA_VERSION }}/git-delta-musl_{{ DELTA_VERSION }}_{{ deb_architecture.stdout }}.deb
+  when: ansible_distribution == 'Ubuntu' and ansible_distribution_major_version | int < 20
