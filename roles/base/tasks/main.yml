@@ -24,6 +24,19 @@
       - elinks
       - grc
 
+- name: install package (ubuntu >20.10)
+  package:
+    name:
+      - exa
+  when: ansible_distribution == 'Ubuntu' and (ansible_distribution_version == "20.10" or ansible_distribution_major_version | int > 20)
+  register: exa_package
+
+- name: install exa (ubuntu <20.10)
+  import_tasks: software/exa.yml
+  vars:
+    EXA_VERSION: "v0.10.0"
+  when: exa_package is skipped
+
 - name: install custom scripts
   copy:
     src: mdless

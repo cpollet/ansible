@@ -1,0 +1,96 @@
+---
+# ref: https://the.exa.website/install/linux#manual
+- name: check exa (manual)
+  stat:
+    path: /usr/local/bin/exa
+  register: exa
+  changed_when: false
+
+- name: check exa man page (manual)
+  stat:
+    path: /usr/share/man/man1/exa.1
+  register: exa_man
+  changed_when: false
+
+- name: check exa_colors man page (manual)
+  stat:
+    path: /usr/share/man/man5/exa_colors.5
+  register: exa_colors_man
+  changed_when: false
+
+- name: check exa zsh completion (manual)
+  stat:
+    path: /usr/local/share/zsh/site-functions/completions.zsh
+  register: exa_zsh
+  changed_when: false
+
+- name: check exa fish completion (manual)
+  stat:
+    path: /usr/share/fish/vendor_completions.d/completions.fish
+  register: exa_fish
+  changed_when: false
+
+- name: download exa (1/2) (manual)
+  tempfile:
+    state: directory
+    suffix: exa
+  register: exa_tmp
+  when: exa.stat.exists == false or exa_man.stat.exists == false or exa_colors_man.stat.exists == false or exa_zsh.stat.exists == false or exa_fish.stat.exists == false
+  changed_when: false
+
+- name: download exa (2/2) (manual)
+  become: true
+  unarchive:
+    src: https://github.com/ogham/exa/releases/download/{{ EXA_VERSION }}/exa-linux-{{ ansible_architecture }}-{{ EXA_VERSION }}.zip
+    dest: "{{ exa_tmp.path }}"
+    remote_src: yes
+  when: exa.stat.exists == false or exa_man.stat.exists == false or exa_colors_man.stat.exists == false or exa_zsh.stat.exists == false or exa_fish.stat.exists == false
+  changed_when: false
+
+- name: install exa (1/2) (manual)
+  become: true
+  copy:
+    src: "{{ exa_tmp.path }}/bin/exa"
+    dest: "/usr/local/bin/exa"
+    remote_src: yes
+  when: exa.stat.exists == false
+
+- name: install exa (2/2) (manual)
+  become: true
+  file:
+    path: /usr/local/bin/exa
+    owner: root
+    group: root
+    mode: u=rwx,g=rx,o=rx
+
+- name: install exa man page (1/2) (manual)
+  become: true
+  copy:
+    src: "{{ exa_tmp.path }}/man/exa.1"
+    dest: "/usr/share/man/man1/exa.1"
+    remote_src: yes
+  when: exa_man.stat.exists == false
+
+- name: install exa man page (2/2) (manual)
+  become: true
+  copy:
+    src: "{{ exa_tmp.path }}/man/exa_colors.5"
+    dest: "/usr/share/man/man5/exa_colors.5"
+    remote_src: yes
+  when: exa_man.stat.exists == false
+
+- name: install exa zsh completion (manual)
+  become: true
+  copy:
+    src: "{{ exa_tmp.path }}/completions/exa.zsh"
+    dest: "/usr/local/share/zsh/site-functions/_exa"
+    remote_src: yes
+  when: exa_zsh.stat.exists == false
+
+- name: install exa fish completion (manual)
+  become: true
+  copy:
+    src: "{{ exa_tmp.path }}/completions/exa.fish"
+    dest: "/usr/share/fish/vendor_completions.d/exa.fish"
+    remote_src: yes
+  when: exa_fish.stat.exists == false
