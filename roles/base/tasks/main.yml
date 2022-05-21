@@ -60,3 +60,8 @@
     DOCKER_COMPOSE_VERSION: "2.5.0"
     users:
       - cpollet
+
+- name: Install glow (markdown cli viewer)
+  import_tasks:  software/glow.yml
+  vars:
+    GLOW_VERSION: "1.4.1"

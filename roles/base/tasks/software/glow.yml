@@ -1,0 +1,10 @@
+---
+# ref: https://github.com/charmbracelet/glow
+- name: Get DEB architecture
+  shell: dpkg --print-architecture
+  register: deb_architecture
+  changed_when: false
+
+- name: Install glow
+  apt:
+    deb: https://github.com/charmbracelet/glow/releases/download/v{{ GLOW_VERSION }}/glow_{{ GLOW_VERSION }}_linux_{{ deb_architecture.stdout }}.deb
