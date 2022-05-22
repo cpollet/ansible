@@ -6,6 +6,7 @@
     state: directory
     mode: '0755'
 
+# fixme
 - name: Nerd Fonts's JetBrainsMono exists
   shell: "ls /usr/share/fonts/ttf/JetBrains\\ Mono*Nerd\\ Font*.ttf"
   register: jetbrainsmono_exists

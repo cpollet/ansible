@@ -79,3 +79,9 @@
   import_tasks:  software/glow.yml
   vars:
     GLOW_VERSION: "1.4.1"
+
+# todo ubuntu 18.10+: check what's in package...
+- name: Install fzf
+  import_tasks:  software/fzf.yml
+  vars:
+    FZF_VERSION: "0.30.0"

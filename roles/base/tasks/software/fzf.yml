@@ -1,0 +1,12 @@
+---
+# ref: https://github.com/junegunn/fzf
+- name: Get DEB architecture
+  shell: dpkg --print-architecture
+  register: deb_architecture
+  changed_when: false
+
+- name: Download fzf
+  unarchive:
+    src: https://github.com/junegunn/fzf/releases/download/{{ FZF_VERSION }}/fzf-{{ FZF_VERSION }}-linux_{{ deb_architecture.stdout }}.tar.gz
+    dest: "/usr/local/bin/"
+    remote_src: yes
