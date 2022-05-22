@@ -51,9 +51,23 @@
     name:
       - kdiff3
       - terminator
+  tags:
+    - gnome
+
+- name: Install alacritty (ubuntu >18.04)
+  package:
+    name:
       - alacritty
   tags:
     - gnome
+  when: ansible_distribution == 'Ubuntu' and (ansible_distribution_version == "18.10" or ansible_distribution_major_version | int > 19)
+  register: alacritty_package
+
+- name: Install alacritty (ubuntu <18.10)
+  import_tasks: software/alacritty.yml
+  tags:
+    - gnome
+  when: alacritty_package is skipped
 
 - import_tasks: software/docker.yml
   vars:

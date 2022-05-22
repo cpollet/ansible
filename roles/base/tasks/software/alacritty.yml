@@ -1,0 +1,14 @@
+---
+# ref: https://ubunlog.com/en/alacritty-emulador-terminal-rapido-simple/
+- name: Add alacritty repository
+  apt_repository:
+    repo: ppa:mmstick76/alacritty
+
+- name: Update cache
+  apt: update_cache=yes
+  changed_when: false
+
+- name: Install alacritty (ubuntu <18.10)
+  package:
+    name:
+      - alacritty
