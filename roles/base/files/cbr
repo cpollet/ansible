@@ -1,0 +1,28 @@
+#!/bin/bash
+# ref: https://github.com/ohmyzsh/ohmyzsh/blob/master/lib/clipboard.zsh
+
+# provides an abstraction on top of underlying keyboards implementation
+# usage: 
+#   cbr [mouse|keyboard]
+
+MODE=${1:-k}
+
+case "$MODE" in
+    m) MODE=mouse    ;;
+    k) MODE=keyboard ;;
+esac
+
+if [ -n "${DISPLAY:-}" ] && which xclip &>/dev/null; then
+    SELECTION=
+    case "$MODE" in
+        mouse)     SELECTION=primary ;;
+        keyboard)  SELECTION=clipboard ;;
+        *)         echo "'$MODE' is not supported" && exit 1 ;;
+    esac
+
+    xclip -out -selection $SELECTION 2>/dev/null
+else
+    cat /tmp/clipboard.$MODE 2>/dev/null
+fi
+
+exit 0

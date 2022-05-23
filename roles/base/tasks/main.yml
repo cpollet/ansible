@@ -20,8 +20,6 @@
       - vim
       - tmux
       - tree
-      - pandoc
-      - elinks
       - grc
 
 - name: install package (ubuntu >20.10)
@@ -37,10 +35,18 @@
     EXA_VERSION: "v0.10.0"
   when: exa_package is skipped
 
-- name: install custom scripts
+- name: install cbr
   copy:
-    src: mdless
-    dest: /usr/local/bin/mdless
+    src: cbr
+    dest: /usr/local/bin/cbr
+    owner: root
+    group: root
+    mode: '0755'
+
+- name: install cbw
+  copy:
+    src: cbw
+    dest: /usr/local/bin/cbw
     owner: root
     group: root
     mode: '0755'
