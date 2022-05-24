@@ -1,5 +1,21 @@
 ---
 - hosts: localhost
+  module_defaults:
+    get_url:
+      validate_certs: false
+    apt_repository:
+      validate_certs: false
+    apt_key:
+      validate_certs: false
+#    apt:
+#      validate_certs: false
+    unarchive:
+      validate_certs: false
+  environment:
+    http_proxy: "{{ lookup('env', 'http_proxy') | default('', True) }}"
+    https_proxy: "{{ lookup('env', 'https_proxy') | default('', True) }}"
+    HTTP_PROXY: "{{ lookup('env', 'HTTP_PROXY') | default('', True) }}"
+    HTTPS_PROXY: "{{ lookup('env', 'HTTPS_PROXY') | default('', True) }}"
   connection: local
   tags: always
   become: true
@@ -15,19 +31,68 @@
       when: ansible_distribution == "Ubuntu"
 
 - hosts: localhost
+  module_defaults:
+    get_url:
+      validate_certs: false
+    apt_repository:
+      validate_certs: false
+    apt_key:
+      validate_certs: false
+#    apt:
+#      validate_certs: false
+    unarchive:
+      validate_certs: false
+  environment:
+    http_proxy: "{{ lookup('env', 'http_proxy') | default('', True) }}"
+    https_proxy: "{{ lookup('env', 'https_proxy') | default('', True) }}"
+    HTTP_PROXY: "{{ lookup('env', 'HTTP_PROXY') | default('', True) }}"
+    HTTPS_PROXY: "{{ lookup('env', 'HTTPS_PROXY') | default('', True) }}"
   tags: base
   become: true
   roles:
     - base
 
 - hosts: localhost
+  module_defaults:
+    get_url:
+      validate_certs: false
+    apt_repository:
+      validate_certs: false
+    apt_key:
+      validate_certs: false
+#    apt:
+#      validate_certs: false
+    unarchive:
+      validate_certs: false
+  environment:
+    http_proxy: "{{ lookup('env', 'http_proxy') | default('', True) }}"
+    https_proxy: "{{ lookup('env', 'https_proxy') | default('', True) }}"
+    HTTP_PROXY: "{{ lookup('env', 'HTTP_PROXY') | default('', True) }}"
+    HTTPS_PROXY: "{{ lookup('env', 'HTTPS_PROXY') | default('', True) }}"
   tags: dev
   become: true
   roles:
     - dev
 
 - hosts: localhost
+  module_defaults:
+    get_url:
+      validate_certs: false
+    apt_repository:
+      validate_certs: false
+    apt_key:
+      validate_certs: false
+#    apt:
+#      validate_certs: false
+    tempfile:
+      validate_certs: false
+  environment:
+    http_proxy: "{{ lookup('env', 'http_proxy') | default('', True) }}"
+    https_proxy: "{{ lookup('env', 'https_proxy') | default('', True) }}"
+    HTTP_PROXY: "{{ lookup('env', 'HTTP_PROXY') | default('', True) }}"
+    HTTPS_PROXY: "{{ lookup('env', 'HTTPS_PROXY') | default('', True) }}"
   tags: profile
   become: false
   roles:
     - profile
+

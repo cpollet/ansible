@@ -5,6 +5,18 @@
   register: deb_architecture
   changed_when: false
 
+- name: Create temp. download directory for exa (manual)
+  tempfile:
+    state: directory
+    suffix: glow
+  register: glow_tmp
+  changed_when: false
+
+- name: Download glow deb
+  get_url:
+    url: https://github.com/charmbracelet/glow/releases/download/v{{ GLOW_VERSION }}/glow_{{ GLOW_VERSION }}_linux_{{ deb_architecture.stdout }}.deb
+    dest: "{{ glow_tmp.path }}/glow.deb"
+
 - name: Install glow
   apt:
-    deb: https://github.com/charmbracelet/glow/releases/download/v{{ GLOW_VERSION }}/glow_{{ GLOW_VERSION }}_linux_{{ deb_architecture.stdout }}.deb
+    deb: "{{ glow_tmp.path }}/glow.deb"

@@ -16,7 +16,23 @@
     deb: https://github.com/dandavison/delta/releases/download/{{ DELTA_VERSION }}/git-delta_{{ DELTA_VERSION }}_{{ deb_architecture.stdout }}.deb
   when: ansible_distribution == 'Ubuntu' and ansible_distribution_major_version | int >= 20
 
+- name: create temp. download directory for delta (ubuntu < 20.04)
+  tempfile:
+    state: directory
+    suffix: delta
+  register: delta_tmp
+  when: ansible_distribution == 'Ubuntu' and ansible_distribution_major_version | int < 20
+  changed_when: false
+
+- name: download delta (ubuntu < 20.04)
+  become: true
+  get_url:
+    url: https://github.com/dandavison/delta/releases/download/{{ DELTA_VERSION }}/git-delta-musl_{{ DELTA_VERSION }}_{{ deb_architecture.stdout }}.deb
+    dest: "{{ delta_tmp.path }}/delta.deb"
+  when: ansible_distribution == 'Ubuntu' and ansible_distribution_major_version | int < 20
+  changed_when: false
+
 - name: Install delta (ubuntu < 20.04)
   apt:
-    deb: https://github.com/dandavison/delta/releases/download/{{ DELTA_VERSION }}/git-delta-musl_{{ DELTA_VERSION }}_{{ deb_architecture.stdout }}.deb
+    deb: "{{ delta_tmp.path }}/delta.deb"
   when: ansible_distribution == 'Ubuntu' and ansible_distribution_major_version | int < 20

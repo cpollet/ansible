@@ -30,7 +30,7 @@
   register: exa_fish
   changed_when: false
 
-- name: download exa (1/2) (manual)
+- name: create temp. download directory for exa (manual)
   tempfile:
     state: directory
     suffix: exa
@@ -38,7 +38,7 @@
   when: exa.stat.exists == false or exa_man.stat.exists == false or exa_colors_man.stat.exists == false or exa_zsh.stat.exists == false or exa_fish.stat.exists == false
   changed_when: false
 
-- name: download exa (2/2) (manual)
+- name: download exa (manual)
   become: true
   unarchive:
     src: https://github.com/ogham/exa/releases/download/{{ EXA_VERSION }}/exa-linux-{{ ansible_architecture }}-{{ EXA_VERSION }}.zip

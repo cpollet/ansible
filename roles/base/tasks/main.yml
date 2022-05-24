@@ -75,11 +75,11 @@
     - gnome
   when: alacritty_package is skipped
 
-- import_tasks: software/docker.yml
-  vars:
-    DOCKER_COMPOSE_VERSION: "2.5.0"
-    users:
-      - cpollet
+#- import_tasks: software/docker.yml
+#  vars:
+#    DOCKER_COMPOSE_VERSION: "2.5.0"
+#    users:
+#      - cpollet
 
 - name: Install glow (markdown cli viewer)
   import_tasks:  software/glow.yml
