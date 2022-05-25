@@ -25,6 +25,7 @@
   loop_control:
     loop_var: key
 
+# todo move to base
 - name: Install xclip
   tags: gnome
   become: true
@@ -32,20 +33,24 @@
     name:
       - xclip
 
-- name: Install yadm
-  become: true
-  package:
-    name:
-      - yadm
+- name: Check yadm
+  stat:
+    path: $HOME/.local/share/yadm/repo.git
+  register: yadm
+  changed_when: false
+
+#- name: Dotfiles repository
+#  debug:
+#    msg: "{{ DOTFILES_REPO }}"
+#  when: yadm.stat.exists == false
+#  vars:
+#    DOTFILES_REPO: "{{ lookup('env', 'DOTFILES_REPO') | default('https://github.com/cpollet/dotfiles.git', True) }}"
 
 - name: Clone dotfiles repository
-  shell: "[ -d $HOME/.yadm ] || yadm clone {{ lookup('env', 'DOTFILES_REPO') | default('https://github.com/cpollet/dotfiles.git', True) }}"
-
-- name: Update dotfiles repository
-  shell: "yadm pull"
-
-- name: "Bootstrap yadm"
-  shell: "$HOME/.config/yadm/bootstrap"
+  shell: "echo 'source <(curl -L bootstrap.yadm.io) && cd $HOME && yadm clone {{ DOTFILES_REPO }} --bootstrap' | /bin/bash"
+  when: yadm.stat.exists == false
+  vars:
+    DOTFILES_REPO: "{{ lookup('env', 'DOTFILES_REPO') | default('https://github.com/cpollet/dotfiles.git', True) }}"
 
 # todo move to base
 - name: "Install fonts"
