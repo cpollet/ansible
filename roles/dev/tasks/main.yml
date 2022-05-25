@@ -9,8 +9,3 @@
   import_tasks: software/nodejs.yml
   vars:
     NODEJS_VERSION: "16"
-
-- name: Install delta (colorful diff)
-  import_tasks:  software/delta.yml
-  vars:
-    DELTA_VERSION: "0.13.0"

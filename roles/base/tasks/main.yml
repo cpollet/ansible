@@ -91,3 +91,8 @@
   import_tasks:  software/fzf.yml
   vars:
     FZF_VERSION: "0.30.0"
+
+- name: Install delta (colorful diff)
+  import_tasks:  software/delta.yml
+  vars:
+    DELTA_VERSION: "0.13.0"
