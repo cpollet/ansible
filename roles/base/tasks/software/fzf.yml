@@ -1,5 +1,6 @@
 ---
 # ref: https://github.com/junegunn/fzf
+# alt: https://github.com/jhawthorn/fzy
 - name: Get DEB architecture
   shell: dpkg --print-architecture
   register: deb_architecture
