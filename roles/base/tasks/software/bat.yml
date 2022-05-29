@@ -1,0 +1,25 @@
+---
+# ref: https://github.com/sharkdp/bat
+# todo: fix musl/glicb dependency version (see delta.yml)
+- name: Get DEB architecture
+  shell: dpkg --print-architecture
+  register: deb_architecture
+  changed_when: false
+
+- name: Create temp. download directory for bat
+  tempfile:
+    state: directory
+    suffix: bat
+  register: bat_tmp
+  changed_when: false
+
+- name: Download bat
+  become: true
+  get_url:
+    url: https://github.com/sharkdp/bat/releases/download/v{{ DELTA_VERSION }}/bat-musl_{{ DELTA_VERSION }}_{{ deb_architecture.stdout }}.deb
+    dest: "{{ bat_tmp.path }}/bat.deb"
+  changed_when: false
+
+- name: Install bat
+  apt:
+    deb: "{{ bat_tmp.path }}/bat.deb"

@@ -96,3 +96,8 @@
   import_tasks:  software/delta.yml
   vars:
     DELTA_VERSION: "0.13.0"
+
+- name: Install bat (cat clone with wings)
+  import_tasks:  software/bat.yml
+  vars:
+    DELTA_VERSION: "0.21.0"
