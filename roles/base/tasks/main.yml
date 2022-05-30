@@ -100,4 +100,4 @@
 - name: Install bat (cat clone with wings)
   import_tasks:  software/bat.yml
   vars:
-    DELTA_VERSION: "0.21.0"
+    BAT_VERSION: "0.21.0"

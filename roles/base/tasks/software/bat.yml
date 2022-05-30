@@ -16,7 +16,7 @@
 - name: Download bat
   become: true
   get_url:
-    url: https://github.com/sharkdp/bat/releases/download/v{{ DELTA_VERSION }}/bat-musl_{{ DELTA_VERSION }}_{{ deb_architecture.stdout }}.deb
+    url: https://github.com/sharkdp/bat/releases/download/v{{ BAT_VERSION }}/bat-musl_{{ BAT_VERSION }}_{{ deb_architecture.stdout }}.deb
     dest: "{{ bat_tmp.path }}/bat.deb"
   changed_when: false
 
