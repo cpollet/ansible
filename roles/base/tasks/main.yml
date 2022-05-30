@@ -106,3 +106,6 @@
   import_tasks: software/fx.yml
   vars:
     FX_VERSION: "24.0.0"
+
+- name: Install 1password
+  import_tasks: software/1password.yml
