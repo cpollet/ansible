@@ -11,3 +11,6 @@
     src: https://github.com/junegunn/fzf/releases/download/{{ FZF_VERSION }}/fzf-{{ FZF_VERSION }}-linux_{{ deb_architecture.stdout }}.tar.gz
     dest: "/usr/local/bin/"
     remote_src: yes
+    mode: u=rwx,g=rx,o=rx
+    owner: root
+    group: root

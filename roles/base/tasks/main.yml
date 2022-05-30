@@ -101,3 +101,8 @@
   import_tasks:  software/bat.yml
   vars:
     BAT_VERSION: "0.21.0"
+
+- name: Install fx (less for json)
+  import_tasks: software/fx.yml
+  vars:
+    FX_VERSION: "24.0.0"

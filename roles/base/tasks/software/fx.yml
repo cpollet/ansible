@@ -1,0 +1,16 @@
+---
+# ref: https://github.com/antonmedv/fx
+# todo: fix musl/glicb dependency version (see delta.yml)
+- name: Get DEB architecture
+  shell: dpkg --print-architecture
+  register: deb_architecture
+  changed_when: false
+
+- name: Download fx
+  become: true
+  get_url:
+    url: https://github.com/antonmedv/fx/releases/download/{{ FX_VERSION }}/fx_linux_{{ deb_architecture.stdout }}
+    dest: "/usr/local/bin/fx"
+    mode: u=rwx,g=rx,o=rx
+    owner: root
+    group: root
