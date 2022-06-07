@@ -9,3 +9,6 @@
   import_tasks: software/nodejs.yml
   vars:
     NODEJS_VERSION: "16"
+
+- name: Install rust
+  import_tasks: software/rust.yml
