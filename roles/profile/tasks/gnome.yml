@@ -3,7 +3,7 @@
   become: true
   package:
     name:
-      - python-psutil
+      #- python-psutil
       - dconf-editor
       - gnome-tweaks
 
