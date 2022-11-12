@@ -17,7 +17,7 @@
   when: jetbrainsmono_exists is failed
   become: true
   unarchive:
-    src: https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/JetBrainsMono.zip
+    src: https://github.com/ryanoasis/nerd-fonts/releases/download/v2.2.2/JetBrainsMono.zip
     dest: "/usr/share/fonts/ttf"
     remote_src: yes
 
