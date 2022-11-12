@@ -21,19 +21,22 @@
       - tmux
       - tree
       - grc
-
-- name: install package (ubuntu >20.10)
-  package:
-    name:
+      - bat
+      - fzf
       - exa
-  when: ansible_distribution == 'Ubuntu' and (ansible_distribution_version == "20.10" or ansible_distribution_major_version | int > 20)
-  register: exa_package
 
-- name: install exa (ubuntu <20.10)
-  import_tasks: software/exa.yml
-  vars:
-    EXA_VERSION: "v0.10.0"
-  when: exa_package is skipped
+#- name: install package (ubuntu >20.10)
+#  package:
+#    name:
+#      - exa
+#  when: ansible_distribution == 'Ubuntu' and (ansible_distribution_version == "20.10" or ansible_distribution_major_version | int > 20)
+#  register: exa_package
+
+#- name: install exa (ubuntu <20.10)
+#  import_tasks: software/exa.yml
+#  vars:
+#    EXA_VERSION: "v0.10.0"
+#  when: exa_package is skipped
 
 - name: install cbr
   copy:
@@ -60,20 +63,22 @@
   tags:
     - gnome
 
-- name: Install alacritty (ubuntu >18.04)
-  package:
-    name:
-      - alacritty
-  tags:
-    - gnome
-  when: ansible_distribution == 'Ubuntu' and (ansible_distribution_version == "18.10" or ansible_distribution_major_version | int > 19)
-  register: alacritty_package
+#- name: Install alacritty (ubuntu >18.04)
+#  package:
+#    name:
+#      - alacritty
+#  tags:
+#    - gnome
+#  when: ansible_distribution == 'Ubuntu' and (ansible_distribution_version == "18.10" or ansible_distribution_major_version | int > 19)
+#  register: alacritty_package
 
-- name: Install alacritty (ubuntu <18.10)
-  import_tasks: software/alacritty.yml
-  tags:
-    - gnome
-  when: alacritty_package is skipped
+#- name: Install alacritty (ubuntu <18.10)
+#  import_tasks: software/alacritty.yml
+#  tags:
+#    - gnome
+#  when: alacritty_package is skipped
+- name: Install alacritty (snap)
+  command: snap install alacritty --classic
 
 - import_tasks: software/docker.yml
   vars:
@@ -87,20 +92,20 @@
     GLOW_VERSION: "1.4.1"
 
 # todo ubuntu 18.10+: check what's in package...
-- name: Install fzf
-  import_tasks:  software/fzf.yml
-  vars:
-    FZF_VERSION: "0.35.0"
+#- name: Install fzf
+#  import_tasks:  software/fzf.yml
+#  vars:
+#    FZF_VERSION: "0.35.0"
 
 - name: Install delta (colorful diff)
   import_tasks:  software/delta.yml
   vars:
     DELTA_VERSION: "0.14.0"
 
-- name: Install bat (cat clone with wings)
-  import_tasks:  software/bat.yml
-  vars:
-    BAT_VERSION: "0.22.1"
+#- name: Install bat (cat clone with wings)
+#  import_tasks:  software/bat.yml
+#  vars:
+#    BAT_VERSION: "0.22.1"
 
 - name: Install fx (less for json)
   import_tasks: software/fx.yml
