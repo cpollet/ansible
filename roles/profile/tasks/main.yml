@@ -10,13 +10,13 @@
     name: "{{ whoami.stdout }}"
     shell: /bin/zsh
 
-# move to dotfiles
 - name: Create ssh key pair
   user:
     name: "{{ whoami.stdout }}"
     generate_ssh_key: yes
     ssh_key_bits: 2048
 
+# move to dotfiles
 - name: "Add authorized keys"
   authorized_key:
     user: "{{ whoami.stdout }}"
