@@ -24,6 +24,7 @@
       - bat
       - fzf
       - exa
+      - python-is-python3
 
 #- name: install package (ubuntu >20.10)
 #  package:
